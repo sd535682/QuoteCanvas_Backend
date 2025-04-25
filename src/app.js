@@ -1,14 +1,15 @@
 import express from "express";
+import { PORT } from "./config/env.js";
 
 const app = express();
-const port = 3000;
+console.log(`Port: ${PORT}`);
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 app.get('/', (req, res) => {
-    res.send('This is Quote Canvas!');
+    res.send({ message: 'This is Quote Canvas!' });
 });
 
 export default app;
