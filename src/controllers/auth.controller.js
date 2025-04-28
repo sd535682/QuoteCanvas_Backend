@@ -18,6 +18,12 @@ export const register = async (req, res, next) => {
       throw error;
     }
 
+    if (password.length < 6) {
+      const error = new Error("Password must be at least 6 characters long");
+      error.statusCode = 400;
+      throw error;
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
