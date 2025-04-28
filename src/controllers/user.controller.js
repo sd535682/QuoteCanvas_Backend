@@ -3,7 +3,7 @@ import { User } from "../models/user.model.js";
 // GET all users
 export const getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select("-password");
     if (!users) {
       const error = new Error("Users not found");
       error.statusCode = 404;
