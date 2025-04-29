@@ -5,14 +5,17 @@ import { User } from "../models/user.model.js";
 export const authorize = async (req, res, next) => {
   try {
     let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
       token = req.headers.authorization.split(" ")[1];
     }
 
     if (!token) {
       return res.status(401).json({
         message: "Unauthorized",
-        error: "No token provided"
+        error: "No token provided",
       });
     }
 
@@ -22,11 +25,11 @@ export const authorize = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({
         message: "Unauthorized",
-        error: "User not found"
+        error: "User not found",
       });
     }
-    
-    req.user = decoded;
+
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).json({
