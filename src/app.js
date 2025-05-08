@@ -6,6 +6,7 @@ import { connectMongoDB } from "./database/mongodb.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 import quoteRouter from "./routes/quotes.routes.js";
+import verifyTokenRouter from "./routes/verifytoken.routes.js";
 
 const app = express();
 // Middleware
@@ -18,6 +19,9 @@ app.use(errorMiddleware);
 
 // Auth Routes
 app.use("/api/v1/auth", authRouter);
+
+// Verify Token Routes
+app.use("/api/v1/verifytoken", verifyTokenRouter);
 
 // User Routes
 app.use("/api/v1/users", userRouter);
