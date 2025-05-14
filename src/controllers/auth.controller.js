@@ -11,18 +11,28 @@ export const register = async (req, res, next) => {
 
   try {
     const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const error = new Error("User already exists");
-      error.statusCode = 409;
-      throw error;
+      return res.status(409).json({
+        success: false,
+        message: "Email already in use",
+      });
     }
 
     if (password.length < 6) {
-      const error = new Error("Password must be at least 6 characters long");
-      error.statusCode = 400;
-      throw error;
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -55,6 +65,22 @@ export const register = async (req, res, next) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
+
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((val) => val.message);
+      return res.status(400).json({
+        success: false,
+        message: messages.join(", "),
+      });
+    }
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "This email is already registered",
+      });
+    }
+
     next(error);
   }
 };
@@ -63,19 +89,29 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and Password are required",
+      });
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-      const error = new Error("Invalid credentials");
-      error.statusCode = 401;
-      throw error;
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
