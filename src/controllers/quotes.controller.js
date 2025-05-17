@@ -13,10 +13,7 @@ export const getAllPublicQuotes = async (req, res, next) => {
 // Get all quotes for the authenticated user
 export const getAllQuotes = async (req, res, next) => {
   try {
-    const quotes = await Quote.find({ user: req.user._id }).populate(
-      "user",
-      "name"
-    );
+    const quotes = await Quote.find({ user: req.user._id });
     res.json({ success: true, data: quotes });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
