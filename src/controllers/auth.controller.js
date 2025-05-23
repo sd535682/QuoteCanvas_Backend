@@ -51,8 +51,7 @@ export const register = async (req, res, next) => {
     const token = jwt.sign({ userId: newUser[0]._id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     });
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
 
     res.status(201).json({
       success: true,
@@ -64,7 +63,6 @@ export const register = async (req, res, next) => {
     });
   } catch (error) {
     await session.abortTransaction();
-    session.endSession();
 
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map((val) => val.message);
@@ -82,6 +80,8 @@ export const register = async (req, res, next) => {
     }
 
     next(error);
+  } finally {
+    session.endSession();
   }
 };
 
