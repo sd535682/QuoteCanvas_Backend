@@ -1,9 +1,21 @@
 import { Quote } from "../models/quotes.model.js";
+import { getPaginationParams, getPaginationMeta } from "../utils/pagination.js";
 
 export const getAllPublicQuotes = async (req, res, next) => {
   try {
-    const quotes = await Quote.find({}).populate("user", "name");
-    res.json({ success: true, data: quotes });
+    const { page, limit, skip } = getPaginationParams(req);
+    const total = await Quote.countDocuments();
+    const quotes = await Quote.find({})
+      .populate("user", "name")
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: quotes,
+      pagination: getPaginationMeta(total, page, limit),
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
     next(error);
@@ -13,8 +25,19 @@ export const getAllPublicQuotes = async (req, res, next) => {
 // Get all quotes for the authenticated user
 export const getAllQuotes = async (req, res, next) => {
   try {
-    const quotes = await Quote.find({ user: req.user._id });
-    res.json({ success: true, data: quotes });
+    const { page, limit, skip } = getPaginationParams(req);
+    const total = await Quote.countDocuments({ user: req.user._id });
+    const quotes = await Quote.find({ user: req.user._id })
+      .populate("user", "name")
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: quotes,
+      pagination: getPaginationMeta(total, page, limit),
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
     next(error);
