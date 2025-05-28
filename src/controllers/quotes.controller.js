@@ -6,7 +6,8 @@ export const getAllPublicQuotes = async (req, res, next) => {
     const { page, limit, skip } = getPaginationParams(req);
     const total = await Quote.countDocuments();
     const quotes = await Quote.find({})
-      .populate("user", "name")
+      .select("quote author category")
+      .populate("user", "name -_id")
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
