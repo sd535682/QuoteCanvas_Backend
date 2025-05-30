@@ -1,14 +1,16 @@
 export const apiGuide = `
-🌟 Welcome to Quote Canvas API guide 🌟
+🌟 Welcome to Quote Canvas API Guide 🌟
 
-📌 Base URL: https://quotecanvas-backend.onrender.com/
+📌 STEP 1: Base URL
+    https://quotecanvas-backend.onrender.com/
 
-📁 STEP 2: Prefix all routes with
-└─ 👉 /api/v1
+📌 STEP 2: Prefix all routes with
+    /api/v1
 
 🧭 Example:
-└─ GET https://quotecanvas-backend.onrender.com/api/v1/quotes
+    GET https://quotecanvas-backend.onrender.com/api/v1/quotes
 
+────────────────────────────────────────────
 
 📂 AUTH ROUTES
 ├─ 🔐 POST   /auth/login         - Login user
@@ -20,18 +22,18 @@ export const apiGuide = `
 ├─ 🌍 GET    /quotes/all         - Get all public quotes
 ├─ 🔍 GET    /quotes/:id         - Get quote by ID (auth required)
 ├─ ➕ POST   /quotes             - Create new quote (auth required)
-├─ ✏️ PUT    /quotes/:id         - Update a quote (auth required)
+├─ ✏️  PUT    /quotes/:id         - Update a quote (auth required)
 └─ ❌ DELETE /quotes/:id         - Delete a quote (auth required)
 
 📂 USER ROUTES
 ├─ 👥 GET    /users              - Get all users (auth required)
 └─ 🧍 GET    /users/:id          - Get user by ID (auth required)
 
-🛡️ TOKEN ROUTE
+🛡️  TOKEN ROUTE
 └─ 🔑 GET    /verifytoken        - Verify auth token
 
-🧭 Quick Tip:
-Use Authorization header with Bearer token for protected routes.
+💡 Quick Tip:
+    Use the Authorization header with a Bearer token for all protected routes.
 
 ✨ Happy Building!
 
