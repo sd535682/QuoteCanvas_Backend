@@ -7,12 +7,15 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 import quoteRouter from "./routes/quotes.routes.js";
 import verifyTokenRouter from "./routes/verifytoken.routes.js";
+import { rateLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: false }));
+app.use(rateLimiter);
 
 // Error Middleware
 app.use(errorMiddleware);
