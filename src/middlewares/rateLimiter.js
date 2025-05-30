@@ -2,7 +2,7 @@ import { rateLimit } from "express-rate-limit";
 
 export const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 4,
+  max: 20,
   message: {
     status: 429,
     error: "Too many requests",
