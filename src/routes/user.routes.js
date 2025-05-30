@@ -11,13 +11,4 @@ userRouter.get("/", authorize, getUsers);
 // GET user by ID
 userRouter.get("/:id", authorize, getUser);
 
-// POST new user
-userRouter.post('/', (req, res) => res.send({ message: 'POST new user' }));
-
-// PUT update user
-userRouter.put('/:id', (req, res) => res.send({ message: 'PUT update user' }));
-
-// DELETE user
-userRouter.delete('/:id', (req, res) => res.send({ message: 'DELETE user' }));
-
 export default userRouter;
