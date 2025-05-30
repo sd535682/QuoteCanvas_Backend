@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import quoteRouter from "./routes/quotes.routes.js";
 import verifyTokenRouter from "./routes/verifytoken.routes.js";
 import { rateLimiter } from "./middlewares/rateLimiter.js";
+import { apiGuide } from "./utils/apiGuide.js";
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.listen(PORT, async () => {
 });
 
 app.get("/", (req, res) => {
-  res.send({ message: "This is Quote Canvas!" });
+  res.type("text/plain").send(apiGuide);
 });
 
 export default app;
