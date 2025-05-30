@@ -5,7 +5,7 @@ export const apiGuide = `
     https://quotecanvas-backend.onrender.com/
 
 📌 STEP 2: Prefix all routes with
-    /api/v1
+    /api/v1/
 
 🧭 Example:
     GET https://quotecanvas-backend.onrender.com/api/v1/quotes
